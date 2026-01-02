@@ -37,6 +37,7 @@ func (h *EventHandler) GetMany(ctx echo.Context) error {
 	}
 	return ctx.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
+		"message": "events retrieved successfully",
 		"data":   events,
 	})
 

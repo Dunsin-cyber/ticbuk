@@ -2,16 +2,16 @@ package repositories
 
 import (
 	"context"
-	"time"
 
 	"github.com/Dunsin-cyber/ticbuk/models"
+	"gorm.io/gorm"
 )
 
 type EventRepository struct {
-	db any
+	db *gorm.DB
 }
 
-func NewEventRepository(db any) models.EventRepository {
+func NewEventRepository(db *gorm.DB) models.EventRepository {
 	return &EventRepository{
 		db: db,
 	}
@@ -19,14 +19,12 @@ func NewEventRepository(db any) models.EventRepository {
 
 func (er *EventRepository) GetMany(ctx context.Context) ([]*models.Event, error) {
 	events := []*models.Event{}
-	events = append(events, &models.Event{
-		ID:        1,
-		Name:      "Sample Event",
-		Location:  "Sample Location",
-		Date:      time.Now(),
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	})
+
+	res := er.db.Model(&models.Event{}).WithContext(ctx).Find(&events)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
 	return events, nil
 }
 
