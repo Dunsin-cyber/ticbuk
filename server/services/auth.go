@@ -31,7 +31,7 @@ func (s *AuthService) Register(ctx context.Context, registerData *models.AuthCre
 
 	user, err := s.authRepo.GetUser(ctx, "email = ?", registerData.Email)
 
-	if errors.Is(err, gorm.ErrRecordNotFound) {
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
 		return "", nil, fmt.Errorf("the user email is already in use")
 	}
 

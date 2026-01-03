@@ -17,10 +17,10 @@ func NewTicketRepository(db *gorm.DB) models.TicketRepository {
 	}
 }
 
-func (r *TicketRepository) GetMany(ctx context.Context) ([]*models.Ticket, error) {
+func (r *TicketRepository) GetMany(ctx context.Context, userId uint) ([]*models.Ticket, error) {
 	tickets := []*models.Ticket{}
 
-	res := r.db.Model(&models.Ticket{}).WithContext(ctx).Preload("Event").Order("updated_at desc").Find(&tickets)
+	res := r.db.Model(&models.Ticket{}).WithContext(ctx).Where("user_id = ?", userId).Preload("Event").Order("updated_at desc").Find(&tickets)
 
 	if res.Error != nil {
 		return nil, res.Error
@@ -28,10 +28,10 @@ func (r *TicketRepository) GetMany(ctx context.Context) ([]*models.Ticket, error
 	return tickets, nil
 }
 
-func (r *TicketRepository) GetOne(ctx context.Context, ticketId uint) (*models.Ticket, error) {
+func (r *TicketRepository) GetOne(ctx context.Context, userId uint, ticketId uint) (*models.Ticket, error) {
 	ticket := &models.Ticket{}
 
-	res := r.db.Model(ticket).WithContext(ctx).Preload("Event").First(ticket)
+	res := r.db.Model(ticket).WithContext(ctx).Where("user_id = ? AND id = ?", userId, ticketId).Preload("Event").First(ticket)
 
 	if res.Error != nil {
 		return nil, res.Error
@@ -39,16 +39,17 @@ func (r *TicketRepository) GetOne(ctx context.Context, ticketId uint) (*models.T
 	return ticket, nil
 }
 
-func (r *TicketRepository) CreateOne(ctx context.Context, ticket *models.Ticket) (*models.Ticket, error) {
+func (r *TicketRepository) CreateOne(ctx context.Context, userId uint, ticket *models.Ticket) (*models.Ticket, error) {
+	ticket.UserID = userId
 	res := r.db.Model(ticket).WithContext(ctx).Create(ticket)
 
 	if res.Error != nil {
 		return nil, res.Error
 	}
-	return r.GetOne(ctx, ticket.ID)
+	return r.GetOne(ctx, userId, ticket.ID)
 }
 
-func (r *TicketRepository) UpdateOne(ctx context.Context, ticketId uint, updateData map[string]interface{}) (*models.Ticket, error) {
+func (r *TicketRepository) UpdateOne(ctx context.Context, userId uint, ticketId uint, updateData map[string]interface{}) (*models.Ticket, error) {
 	ticket := &models.Ticket{}
 
 	updateRes := r.db.Model(ticket).Where("id = ?", ticketId).Updates(updateData)
@@ -57,10 +58,5 @@ func (r *TicketRepository) UpdateOne(ctx context.Context, ticketId uint, updateD
 		return nil, updateRes.Error
 	}
 
-	getRes := r.db.Model(ticket).Where("id = ?", ticketId).First(ticket)
-
-	if getRes.Error != nil {
-		return nil, getRes.Error
-	}
-	return ticket, nil
+	return r.GetOne(ctx, userId, ticketId)
 }

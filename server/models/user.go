@@ -15,7 +15,7 @@ const (
 
 type User struct {
 	ID        uint      `gorm:"primaryKey;autoIncrement" json:"id"`
-	Username  string    `gorm:"uniqueIndex" json:"username"`
+	// Username  string    `gorm:"uniqueIndex" json:"username"`
 	Email     string    `gorm:"uniqueIndex" json:"email"`
 	Role      UserRole  `json:"role" gorm:"text;default:attendee"`
 	Password  string    `json:"-"`
