@@ -19,17 +19,18 @@ func main() {
 	app := echo.New()
 
 	// Middleware
-	app.Use(middleware.Logger())
+	app.Use(middleware.RequestLogger())
 	app.Use(middleware.Recover())
 
 	// repository
 	eventRepository := repositories.NewEventRepository(db)
-
+	ticketRepository := repositories.NewTicketRepository(db)
 	// Routing
 	server := app.Group("/api/v1")
 
 	// handler
 	handlers.NewEventHandler(server.Group("/events"), eventRepository)
+	handlers.NewTicketHandler(server.Group("/ticket"), ticketRepository)
 
 	app.Logger.Fatal(app.Start(fmt.Sprintf(":%s", envConfig.ServerPort)))
 
