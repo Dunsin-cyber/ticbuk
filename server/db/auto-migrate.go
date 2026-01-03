@@ -10,7 +10,7 @@ import (
 
 func DBMigrator(db *gorm.DB) error {
 	// Auto migrate the Event model
-	err := db.AutoMigrate(&models.Event{}, &models.Ticket{})
+	err := db.AutoMigrate(&models.Event{}, &models.Ticket{}, &models.User{})
 	if err != nil {
 		return fmt.Errorf("failed to auto-migrate database: %v", err)
 	}
