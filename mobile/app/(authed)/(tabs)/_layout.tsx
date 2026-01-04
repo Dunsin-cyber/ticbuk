@@ -54,7 +54,7 @@ export default function TabLayout() {
 						...tab.options,
 						headerTitle: tab.displayName,
 						// href: tab.showFor.includes()
-						tabBarLabel: ({ focused }) => (
+						tabBarLabel: ({ focused }) =>  (
 							<Text
 								style={{
 									color: focused ? "black" : "gray",
