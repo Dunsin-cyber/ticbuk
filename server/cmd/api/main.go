@@ -23,6 +23,11 @@ func main() {
 	// Middleware
 	app.Use(middleware.RequestLogger())
 	app.Use(middleware.Recover())
+	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"}, // Allows your iPhone to connect
+		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 
 	// repository
 	eventRepository := repositories.NewEventRepository(db)
