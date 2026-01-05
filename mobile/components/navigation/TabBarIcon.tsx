@@ -1,17 +1,18 @@
 import { ComponentProps } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-
 export default function TabBarIcon({
 	name,
-	color,
+	size = 28,
+	color = "black",
 }: {
 	name: ComponentProps<typeof Ionicons>["name"];
-	color: string;
+	color?: string;
+	size: number;
 }) {
 	return (
 		<Ionicons
-			size={28}
+			size={size}
 			style={{ marginBottom: -3 }}
 			name={name}
 			color={color}
