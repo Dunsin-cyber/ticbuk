@@ -58,7 +58,6 @@ export function AuthenticationProvider({ children }: PropsWithChildren) {
 		password: string
 	): Promise<void> {
 		try {
-			console.log("got here");
 			setIsLoadingAuth(true);
 
 			const response = await userService[authMode]({ email, password });

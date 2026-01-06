@@ -8,8 +8,8 @@ import {
 import { Text } from "./Text";
 
 interface ButtonProps extends ShortcutProps, TouchableOpacityProps {
-	variant?: "contained" | "otlined" | "ghost";
-	isLoading: boolean;
+	variant?: "contained" | "outlined" | "ghost";
+	isLoading?: boolean;
 }
 
 export function Button({
