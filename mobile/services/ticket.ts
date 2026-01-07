@@ -22,7 +22,7 @@ async function validateOne(
 	ticketId: number,
 	ownerId: number
 ): Promise<TicketResponse> {
-	return Api.post("/ticket/validate", {
+	return Api.put("/ticket/validate", {
 		ticketId,
 		ownerId,
 	});

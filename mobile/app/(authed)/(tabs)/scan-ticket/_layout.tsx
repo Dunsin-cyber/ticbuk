@@ -38,15 +38,16 @@ export default function ScanTicketScreen() {
 			Vibration.vibrate();
 			setScanningEnabled(false);
 
-			const [ticket, owner] = data.split(",");
-			const ticketId = parseInt(ticket.split(":")[1]);
-			const ownerId = parseInt(owner.split(":")[1]);
+			const [ticketId, ownerId] = data.split(",");
+			const ticketId_ = parseInt(ticketId.split(":")[1]);
+			const ownerId_ = parseInt(ownerId.split(":")[1]);
 
-			await ticketService.validateOne(ticketId, ownerId);
+
+			await ticketService.validateOne(ticketId_, ownerId_);
 
 			Alert.alert("Success", "Ticket Validated", [
-				{text: "Ok", onPress: () => setScanningEnabled(true)}
-			])
+				{ text: "Ok", onPress: () => setScanningEnabled(true) },
+			]);
 		} catch (err) {
 			Alert.alert("Error", "Faiiled to validate ticket, please try again");
 			setScanningEnabled(true);

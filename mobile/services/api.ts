@@ -4,8 +4,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const url =
 	Platform.OS === "android"
-		? "http://127.0.0.1:3000"
-		: "http://192.168.0.2:3000";
+		? "http://192.168.0.4:3000"
+		: "http://192.168.0.4:3000";
 
 const Api: AxiosInstance = axios.create({ baseURL: url + "/api/v1" });
 
