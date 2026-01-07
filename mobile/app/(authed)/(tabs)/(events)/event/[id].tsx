@@ -87,7 +87,7 @@ export default function EventDetailScreen() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			HeaderTitle: "",
+			headerTitle: "Edit",
 			headerRight: () => headerRight(onDelete),
 		});
 	}, [navigation, onDelete]);

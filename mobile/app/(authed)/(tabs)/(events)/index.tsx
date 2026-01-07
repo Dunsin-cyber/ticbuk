@@ -12,6 +12,7 @@ import TabBarIcon from "@/components/navigation/TabBarIcon";
 import { Divider } from "@/components/Divider";
 import { Button } from "@/components/Button";
 import { useFocusEffect } from "@react-navigation/native";
+import { ticketService } from "@/services/ticket";
 
 export default function EventsScreen() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -44,8 +45,6 @@ export default function EventsScreen() {
 	);
 
 	useEffect(() => {
-		fetchEvents();
-
 		navigation.setOptions({
 			headerTitle: "Events",
 			headerRight: user?.role === UserRole.Manager ? headerRight : null,
@@ -58,9 +57,9 @@ export default function EventsScreen() {
 		}
 	}
 
-	function buyTicket(id: number) {
+	async function buyTicket(id: number) {
 		try {
-			// await ticketService.createOne(id)
+			await ticketService.createOne(id);
 			Alert.alert("Success", "Ticket purchased successfully");
 		} catch (error) {
 			console.error(error);
