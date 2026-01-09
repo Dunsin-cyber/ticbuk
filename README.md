@@ -61,4 +61,3 @@ const url = Platform.OS === "android"
 
 > **Note:** Using your local IP instead of `localhost` allows external physical devices on the same Wi-Fi network to reach your backend API.
 
----
